@@ -59,7 +59,11 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-	<h1>강사 목록</h1>
+	<div class="p-4 bg-dark text-white text-center">
+		<h1>강사 목록</h1>
+		<p>메소드 클래스 객체 연습</p> 
+	</div>
+	<br>
 	<a type="button" class="btn btn-outline-secondary" href="<%=request.getContextPath()%>/subject/subjectList.jsp">과목 목록으로</a>
 	<a type="button" class="btn btn-outline-secondary" href="<%=request.getContextPath()%>/">추가</a>
 	<br>
@@ -88,7 +92,7 @@
 	
 	<!-- ================ 페이지 ================ -->
 	<div class="container mt-3">
-		<ul class="pagination">
+		<ul class="pagination justify-content-center">
 		<!-- 첫 페이지 버튼 항상 표시 -->
 			<li>
 				<a type="button" class="btn btn-outline-secondary" href="<%=request.getContextPath()%>/teacher/teacherList.jsp?currentPage=1">첫페이지</a>&nbsp;
