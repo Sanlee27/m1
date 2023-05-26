@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.*;
 
 import util.DBUtil;
+import vo.Teacher;
 
 public class TeacherDao {
 	/*
@@ -16,6 +17,7 @@ public class TeacherDao {
 	 GROUP BY t.teacher_no, t.teacher_id, t.teacher_name
 	 LIMIT 0,10;
 	 */
+	// 강사목록
 	public ArrayList<HashMap<String, Object>> selectTeacherListByPage(int beginRow, int rowPerPage) throws Exception {
 		ArrayList<HashMap<String, Object>> tList = new ArrayList<HashMap<String, Object>>();
 		// DB메소드
@@ -40,7 +42,7 @@ public class TeacherDao {
 		return tList;
 	}
 	
-	// 선생전체 row
+	// 강사전체 row
 	public int selectTeacherCnt() throws Exception {
 		int totalRow = 0;
 		// DB메소드
@@ -56,4 +58,62 @@ public class TeacherDao {
 		}
 		return totalRow;
 	}	
+	
+	// 강사 1명 상세보기
+	public Teacher selectTeacherOne(int teacherNo) throws Exception {
+		Teacher teacher = null;
+		// DB메소드
+		DBUtil dbUtil = new DBUtil(); 
+		Connection conn = dbUtil.getConnection();
+		// prpare
+		PreparedStatement stmt = conn.prepareStatement("SELECT teacher_no tNo, teacher_id tId, teacher_name tName, teacher_history tHistory, updatedate,createdate FROM teacher WHERE teacher_no = ?");
+		stmt.setInt(1, teacherNo);
+		// rs.set
+		ResultSet rs = stmt.executeQuery();
+		// 데이터
+		if(rs.next()) {
+			Teacher tBoard = new Teacher();
+			tBoard.setTeacherNo(rs.getInt("tNo"));
+			tBoard.setTeacherId(rs.getString("tId"));
+			tBoard.setTeacherName(rs.getString("tName"));
+			tBoard.setTeacherHistory(rs.getString("tHistory"));
+			tBoard.setCreatedate(rs.getString("createdate"));
+			tBoard.setUpdatedate(rs.getString("updatedate"));
+		}
+		
+		return teacher;
+	}
+	
+	// 강사 수정
+	public int updateTeacher(Teacher teacher) throws Exception {
+		int row = 0;
+		// DB메소드
+		DBUtil dbUtil = new DBUtil(); 
+		Connection conn = dbUtil.getConnection();
+		// prpare
+		PreparedStatement stmt = conn.prepareStatement("UPDATE teacher SET teacher_id=?, teacher_name=?, teacher_history=?, updatedate=NOW() WHERE teacher_no = ?");
+		stmt.setString(1, teacher.getTeacherId());
+		stmt.setString(2, teacher.getTeacherName());
+		stmt.setString(3, teacher.getTeacherHistory());
+		stmt.setInt(4, teacher.getTeacherNo());
+		// excute
+		row = stmt.executeUpdate();
+		
+		return row;
+	}
+	
+	// 강사 삭제
+	public int deleteTeacher(int teacherNo) throws Exception {
+		int row = 0;
+		// DB메소드
+		DBUtil dbUtil = new DBUtil(); 
+		Connection conn = dbUtil.getConnection();
+		// prpare
+		PreparedStatement stmt = conn.prepareStatement("DELETE FROM teacher WHERE teacher_no = ?");
+		stmt.setInt(1, teacherNo);
+		// excute
+		row = stmt.executeUpdate();
+		
+		return row;
+	}
 }
