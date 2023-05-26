@@ -8,7 +8,7 @@ import vo.Subject;
 
 public class SubjectDao {
 	// 1) 과목목록
-	public ArrayList<Subject> selectSubjectListByPage(int beginRow, int rowPerePage ) throws Exception {
+	public ArrayList<Subject> selectSubjectListByPage(int beginRow, int rowPerPage ) throws Exception {
 		ArrayList<Subject> list = new ArrayList<>();
 		// DB메소드
 		DBUtil dbUtil = new DBUtil(); 
@@ -16,7 +16,7 @@ public class SubjectDao {
 		// prpare
 		PreparedStatement stmt = conn.prepareStatement("SELECT subject_no, subject_name, subject_time, updatedate, createdate FROM subject ORDER BY createdate DESC LIMIT ?, ?");
 		stmt.setInt(1, beginRow);
-		stmt.setInt(2, rowPerePage);
+		stmt.setInt(2, rowPerPage);
 		// rs set
 		ResultSet rs = stmt.executeQuery();
 		//모델데이터
@@ -108,17 +108,17 @@ public class SubjectDao {
 	
 	// 6) 과목전체row
 	public int selectSubjectCnt() throws Exception {
-		int row = 0;
+		int toalRow = 0;
 		// DB메소드
 		DBUtil dbUtil = new DBUtil(); 
 		Connection conn = dbUtil.getConnection();
 		
-		PreparedStatement stmt = conn.prepareStatement("select count(*) from subject");
+		PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM subject");
 		ResultSet rs = stmt.executeQuery();
 		
 		if(rs.next()) {
-			row = rs.getInt(1);
+			toalRow = rs.getInt(1);
 		}
-		return row;
+		return toalRow;
 	}
 }
