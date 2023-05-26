@@ -14,7 +14,7 @@ public class SubjectDao {
 		DBUtil dbUtil = new DBUtil(); 
 		Connection conn = dbUtil.getConnection();
 		// prpare
-		PreparedStatement stmt = conn.prepareStatement("SELECT subject_no, subject_name, subject_time, updatedate, createdate FROM subject ORDER BY createdate DESC LIMIT ?, ?");
+		PreparedStatement stmt = conn.prepareStatement("SELECT subject_no, subject_name, subject_time, updatedate, createdate FROM subject ORDER BY createdate ASC LIMIT ?, ?");
 		stmt.setInt(1, beginRow);
 		stmt.setInt(2, rowPerPage);
 		// rs set
@@ -40,7 +40,7 @@ public class SubjectDao {
 		DBUtil dbUtil = new DBUtil(); 
 		Connection conn = dbUtil.getConnection();
 		//prpare
-		PreparedStatement stmt = conn.prepareStatement("INSERT INTO subject(subject_name, subject_time,updatedate,createdate) VALUES (?, ?, NOW(), NOW()");
+		PreparedStatement stmt = conn.prepareStatement("INSERT INTO subject(subject_name, subject_time,updatedate,createdate) VALUES (?, ?, NOW(), NOW())");
 		stmt.setString(1, subject.getSubjectName());
 		stmt.setInt(2, subject.getSubjectTime());
 		
@@ -95,12 +95,12 @@ public class SubjectDao {
 		ResultSet rs = stmt.executeQuery();
 		
 		if(rs.next()) {
-			Subject subBoard = new Subject();
-			subBoard.setSubjectNo(rs.getInt("subject_no"));
-			subBoard.setSubjectName(rs.getString("subject_name"));
-			subBoard.setSubjectTime(rs.getInt("subject_time"));
-			subBoard.setCreatedate(rs.getString("createdate"));
-			subBoard.setUpdatedate(rs.getString("updatedate"));
+			subject = new Subject();
+			subject.setSubjectNo(rs.getInt("subject_no"));
+			subject.setSubjectName(rs.getString("subject_name"));
+			subject.setSubjectTime(rs.getInt("subject_time"));
+			subject.setCreatedate(rs.getString("createdate"));
+			subject.setUpdatedate(rs.getString("updatedate"));
 		}
 		
 		return subject;
