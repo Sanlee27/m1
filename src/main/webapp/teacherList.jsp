@@ -60,6 +60,7 @@
 </head>
 <body>
 	<h1>강사 목록</h1>
+	<a type="button" class="btn btn-outline-secondary" href="<%=request.getContextPath()%>/subjectList.jsp">과목 목록으로</a>
 	<a type="button" class="btn btn-outline-secondary" href="<%=request.getContextPath()%>/">추가</a>
 	<br>
 	<table class="table table-hover">
