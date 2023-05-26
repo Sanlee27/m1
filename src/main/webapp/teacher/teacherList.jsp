@@ -1,15 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import = "java.util.*"%>
-<%@ page import = "java.sql.*"%>   
-<%@ page import = "util.DBUtil" %>
-<%@ page import = "dao.SubjectDao" %>
-<%@ page import = "vo.Subject" %>
+<%@ page import="vo.*" %>
+<%@ page import="dao.*" %>
+<%@ page import="java.util.*" %>
 <%	
 	// 메소드 클래스 객체 생성
-	SubjectDao dao = new SubjectDao();
+	TeacherDao dao = new TeacherDao();
 
-	//============페이징==============
+	// ============페이징==============
 	// 현재 페이지
 	int currentPage = 1;
 	if(request.getParameter("currentPage") != null){
@@ -20,7 +18,7 @@
 	int rowPerPage  = 10;
 	
 	// 전체 페이지
-	int totalRow = dao.selectSubjectCnt();
+	int totalRow = dao.selectTeacherCnt();
 	
 	// 시작행 = ((현재 페이지 - 1) x 페이지당 개수 10개) ex) 1페이지 > 0~9번 행
 	int beginRow = (currentPage-1) * rowPerPage;
@@ -50,45 +48,38 @@
 	
 	// ==============================
 	// 리스트
-	ArrayList<Subject> list = dao.selectSubjectListByPage(beginRow, rowPerPage);
+	ArrayList<HashMap<String, Object>> tList = dao.selectTeacherListByPage(beginRow, rowPerPage);
 %>    
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>subject list</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+	<meta charset="UTF-8">
+	<title>subject list</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-	<div class="p-4 bg-dark text-white text-center">
-		<h1>강사 목록</h1>
-		<p>메소드 클래스 객체 연습</p> 
-	</div>
-	<br>
-	<a type="button" class="btn btn-outline-secondary" href="<%=request.getContextPath()%>/teacherList.jsp">강사 목록으로</a>
+	<h1>강사 목록</h1>
+	<a type="button" class="btn btn-outline-secondary" href="<%=request.getContextPath()%>/subject/subjectList.jsp">과목 목록으로</a>
 	<a type="button" class="btn btn-outline-secondary" href="<%=request.getContextPath()%>/">추가</a>
+	<br>
 	<table class="table table-hover">
 		<tr>
-			<th>번호</th>
+			<th>강사ID</th>
+			<th>강사명</th>
 			<th>과목명</th>
-			<th>시수</th>
-			<th>등록일</th>
-			<th>수정일</th>
-			<th>수정</th>
-			<th>삭제</th>
 		</tr>
 		<%
-			for(Subject s : list){
+			for(HashMap<String, Object> t : tList){
 		%>
 				<tr>
-					<td><%=s.getSubjectNo()%></td>
-					<td><%=s.getSubjectName()%></td>
-					<td><%=s.getSubjectTime()%></td>
-					<td><%=s.getCreatedate()%></td>
-					<td><%=s.getUpdatedate()%></td>
-					<td><a type="button" class="btn btn-outline-secondary" href="<%=request.getContextPath()%>/updateSubjectForm.jsp?subjectNo=<%=s.getSubjectNo()%>">수정</a></td>
-					<td><a type="button" class="btn btn-outline-secondary" href="<%=request.getContextPath()%>/deleteSubjectForm.jsp?subjectNo=<%=s.getSubjectNo()%>">삭제</a></td>
+					<td>
+						<a href = "<%=request.getContextPath()%>/">
+							<%=(String)t.get("tId")%>
+						</a>
+					</td>
+					<td><%=(String)t.get("tName")%></td>
+					<td><%=(String)t.get("sName")%></td>
 				</tr>
 		<%
 			}
@@ -97,10 +88,10 @@
 	
 	<!-- ================ 페이지 ================ -->
 	<div class="container mt-3">
-		<ul class="pagination justify-content-center">
+		<ul class="pagination">
 		<!-- 첫 페이지 버튼 항상 표시 -->
 			<li>
-				<a type="button" class="btn btn-outline-secondary" href="<%=request.getContextPath()%>/subjectList.jsp?currentPage=1">첫페이지</a>&nbsp;
+				<a type="button" class="btn btn-outline-secondary" href="<%=request.getContextPath()%>/teacher/teacherList.jsp?currentPage=1">첫페이지</a>&nbsp;
 			</li>
 	<%
 		// 첫페이지가 아닐 경우 이전 버튼 표시 == 첫 페이지에선 표시 x 
@@ -108,7 +99,7 @@
 		if(minPage > 1){
 	%>		
 			<li>
-				<a type="button" class="btn btn-outline-secondary" href="<%=request.getContextPath()%>/subjectList.jsp?currentPage=<%=minPage-rowPerPage%>">이전</a>&nbsp;
+				<a type="button" class="btn btn-outline-secondary" href="<%=request.getContextPath()%>/teacher/teacherList.jsp?currentPage=<%=minPage-rowPerPage%>">이전</a>&nbsp;
 			</li>
 	<%	
 		}
@@ -125,7 +116,7 @@
 			} else {
 	%>			
 				<li>
-					<a type="button" class="btn btn-outline-secondary" href="<%=request.getContextPath()%>/subjectList.jsp?currentPage=<%=i%>"><%=i%></a>&nbsp;
+					<a type="button" class="btn btn-outline-secondary" href="<%=request.getContextPath()%>/teacher/teacherList.jsp?currentPage=<%=i%>"><%=i%></a>&nbsp;
 				</li>
 	<%			
 			}
@@ -136,7 +127,7 @@
 		if(maxPage != lastPage){
 	%>	
 			<li>
-				<a type="button" class="btn btn-outline-secondary" href="<%=request.getContextPath()%>/subjectList.jsp?currentPage=<%=minPage+rowPerPage%>">다음</a>&nbsp;
+				<a type="button" class="btn btn-outline-secondary" href="<%=request.getContextPath()%>/teacher/teacherList.jsp?currentPage=<%=minPage+rowPerPage%>">다음</a>&nbsp;
 			</li>
 	<%
 		}
@@ -147,13 +138,13 @@
 		if(lastPage == 0){
 	%>
 			<li>
-				<a type="button" class="btn btn-outline-secondary" href="<%=request.getContextPath()%>/subjectList.jsp?currentPage=1">마지막페이지</a>&nbsp;
+				<a type="button" class="btn btn-outline-secondary" href="<%=request.getContextPath()%>/teacher/teacherList.jsp?currentPage=1">마지막페이지</a>&nbsp;
 			</li>
 	<%
 		} else {
 	%>	
 			<li>
-				<a type="button" class="btn btn-outline-secondary" href="<%=request.getContextPath()%>/subjectList.jsp?currentPage=<%=lastPage%>">마지막페이지</a>&nbsp;
+				<a type="button" class="btn btn-outline-secondary" href="<%=request.getContextPath()%>/teacher/teacherList.jsp?currentPage=<%=lastPage%>">마지막페이지</a>&nbsp;
 			</li>
 	<%
 		}
