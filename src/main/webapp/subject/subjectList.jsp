@@ -62,7 +62,7 @@
 </head>
 <body>
 	<div class="p-4 bg-dark text-white text-center">
-		<h1>강사 목록</h1>
+		<h1>과목 목록</h1>
 		<p>메소드 클래스 객체 연습</p> 
 	</div>
 	<br>
