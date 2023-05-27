@@ -54,7 +54,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>subject list</title>
+	<title>teacher list</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
@@ -69,21 +69,23 @@
 	<br>
 	<table class="table table-hover">
 		<tr>
+			<th>번호</th>
 			<th>강사ID</th>
 			<th>강사명</th>
-			<th>과목명</th>
+			<th>담당 과목</th>
+			<th>&nbsp;</th>
 		</tr>
 		<%
 			for(HashMap<String, Object> t : tList){
 		%>
 				<tr>
-					<td>
-						<a href = "<%=request.getContextPath()%>/">
-							<%=(String)t.get("tId")%>
-						</a>
-					</td>
+					<td><%=(Integer)t.get("tNo")%></td>
+					<td><%=(String)t.get("tId")%></td>
 					<td><%=(String)t.get("tName")%></td>
 					<td><%=(String)t.get("sName")%></td>
+					<td>
+						<a type="button" class="btn btn-outline-secondary" href = "<%=request.getContextPath()%>/teacher/teacherOne.jsp?teacherNo=<%=t.get("tNo")%>">상세보기</a>
+					</td>
 				</tr>
 		<%
 			}
