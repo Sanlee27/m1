@@ -65,7 +65,7 @@
 	</div>
 	<br>
 	<a type="button" class="btn btn-outline-secondary" href="<%=request.getContextPath()%>/subject/subjectList.jsp">과목 목록으로</a>
-	<a type="button" class="btn btn-outline-secondary" href="<%=request.getContextPath()%>/">추가</a>
+	<a type="button" class="btn btn-outline-secondary" href="<%=request.getContextPath()%>/teacher/insertTeacherForm.jsp">추가</a>
 	<br>
 	<table class="table table-hover">
 		<tr>
