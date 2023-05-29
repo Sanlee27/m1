@@ -121,4 +121,31 @@ public class SubjectDao {
 		}
 		return toalRow;
 	}
+	
+	/*
+	// 7) 과목 수정 / 추가시 중복체크
+	public Subject selectCountSubject(String subjectName) throws Exception {
+		Subject subject = null;
+		// DB메소드
+		DBUtil dbUtil = new DBUtil(); 
+		Connection conn = dbUtil.getConnection();
+		//prpare
+		PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(subject_name) cnt FROM subject WHERE subject_name = ?");
+		stmt.setString(1, subjectName);
+		// rs
+		ResultSet rs = stmt.executeQuery();
+		
+		int cnt = 0;
+		if(rs.next()){
+			cnt = rs.getInt("cnt");
+		}
+		
+		String msg = null;
+		
+		if (cnt != 0) {
+			msg = URLEncoder.encode("중복값입니다 입니다.","UTF-8");
+		}
+		return subject;
+	}
+	*/
 }
